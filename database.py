@@ -136,9 +136,9 @@ def query_to_gui():
         global query_label
         query_label = Label(root, text=print_records)
         query_label.grid(row=9, column=9, columnspan=3, pady=10, padx=10)
-    # else:
-        # time.sleep(1)
-        # query_label.destroy()
+    else:
+        time.sleep(1)
+        query_label.destroy()
 
     c.close()
     conn.close()
