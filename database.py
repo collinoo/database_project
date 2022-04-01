@@ -47,6 +47,25 @@ c.execute("""CREATE TABLE IF NOT EXISTS Stores (
             StoreZipcode text
     )""")
 
+c.execute("""CREATE TABLE IF NOT EXISTS BikeCategory (
+            BikeCatID INTEGER PRIMARY KEY NOT NULL,
+            BikeCat text
+    )""")
+
+# c.execute("""CREATE TABLE IF NOT EXISTS BikeBrand (
+#             BikeBrandID INTEGER PRIMARY KEY NOT NULL,
+#             BikeCategory text
+#     )""")
+#
+# c.execute("""CREATE TABLE IF NOT EXISTS BikeProducts (
+#             BikeProdID INTEGER PRIMARY KEY NOT NULL,
+#             BikeProdName text,
+#             BikeBrandID text foreign key(BikeBrandID)
+#             BikeCatID text foreign key(BikeCatID)
+#             ModelYear text,
+#             BikePrice text
+#     )""")
+
 
 # delete all rows from store table
 # c.execute("DELETE FROM Stores")
@@ -58,25 +77,37 @@ def submit():
     # Create cursor
     c = conn.cursor()
 
-   # Get data from Input boxes and pass to sql_query
-    sql_query = "INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "')"
+    # Get data from Input boxes and pass to sql_query
+    # sql_query = "INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "', '" + "INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')" + "')"
+    # sql_query2 = "INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')"
 
-    c.execute(sql_query)
+    # instead of using sql_query, I used c.execute() to insert data into the database
+    c.execute("INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "')")
+    c.execute("INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')")
+
+    # c.execute(sql_query)
+    # c.execute(sql_query2)
     conn.commit()
 
     c.close()
     conn.close()
 
+
     # clear the text boxes
+    # Store Id
     store_id.delete(0, END)
     store_name.delete(0, END)
     store_email.delete(0, END)
     store_phone.delete(0, END)
     store_address.delete(0, END)
     store_zipcode.delete(0, END)
+    # Bike Category
+    # bike_cat_id.delete(0, END)
+    # bike_cat.delete(0, END)
 
 
 # Text boxes
+# Store ID
 store_id = Entry(root, width=30)
 store_id.grid(row=0, column=1, padx=20)
 store_name = Entry(root, width=30)
@@ -89,8 +120,14 @@ store_address = Entry(root, width=30)
 store_address.grid(row=4, column=1)
 store_zipcode = Entry(root, width=30)
 store_zipcode.grid(row=5, column=1)
+# Bike Category
+bike_cat_id = Entry(root, width=30)
+bike_cat_id.grid(row=6, column=1, padx=20)
+bike_cat = Entry(root, width=30)
+bike_cat.grid(row=7, column=1)
 
 # Labels
+# Store ID
 store_id_label = Label(root, text="Store ID")
 store_id_label.grid(row=0, column=0, pady=10)
 store_name_label = Label(root, text="Store Name")
@@ -103,28 +140,34 @@ store_address_label = Label(root, text="Store Address")
 store_address_label.grid(row=4, column=0, pady=10)
 store_zipcode_label = Label(root, text="Store Zipcode")
 store_zipcode_label.grid(row=5, column=0, pady=10)
+# Bike Category
+bike_cat_id_label = Label(root, text="Bike Category ID")
+bike_cat_id_label.grid(row=6, column=0, pady=10)
+bike_cat_label = Label(root, text="Bike Category")
+bike_cat_label.grid(row=7, column=0, pady=10)
+
 
 # Submit button
 submit_button = Button(root, text="Submit", command=submit)
-submit_button.grid(row=6, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
+submit_button.grid(row=12, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
+
 
 # Get data from database
 def query_to_console():
     conn = sqlite3.connect('BikeStores.db')
     c = conn.cursor()
 
-    c.execute("SELECT * FROM Stores")
+    c.execute("SELECT * FROM Stores, BikeCategory")
     pprint.pprint(c.fetchall())
     c.close()
     conn.close()
+
+
 # Print the data from the datbase to the GUI
-
-
-
 def query_to_gui():
     conn = sqlite3.connect('BikeStores.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM Stores")
+    c.execute("SELECT * FROM Stores, BikeCategory")
     output = c.fetchall()
 
     # check if there is data in output
@@ -144,12 +187,9 @@ def query_to_gui():
     conn.close()
 
 
-
-
-
 # Query button
 query_button = Button(root, text="Show records", command=query_to_gui)
-query_button.grid(row=7, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
+query_button.grid(row=13, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
 
 
 def delete_rows(tableName):
@@ -164,9 +204,10 @@ def delete_rows(tableName):
     c.close()
     conn.close()
 
+
 # Delete button
 delete_button = Button(root, text="Delete all rows", command=lambda: delete_rows("Stores"))
-delete_button.grid(row=8, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
+delete_button.grid(row=14, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
 
 conn.commit()
 conn.close()
