@@ -51,7 +51,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS BikeCategory (
             BikeCatID INTEGER PRIMARY KEY NOT NULL,
             BikeCat text
     )""")
-#
+
 # c.execute("""CREATE TABLE IF NOT EXISTS BikeBrand (
 #             BikeBrandID INTEGER PRIMARY KEY NOT NULL,
 #             BikeCategory text
@@ -78,10 +78,14 @@ def submit():
     c = conn.cursor()
 
     # Get data from Input boxes and pass to sql_query
-    sql_query = "INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "')"
+    # sql_query = "INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "', '" + "INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')" + "')"
     # sql_query2 = "INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')"
 
-    c.execute(sql_query)
+    # instead of using sql_query, I used c.execute() to insert data into the database
+    c.execute("INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "')")
+    c.execute("INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')")
+
+    # c.execute(sql_query)
     # c.execute(sql_query2)
     conn.commit()
 
@@ -90,12 +94,16 @@ def submit():
 
 
     # clear the text boxes
+    # Store Id
     store_id.delete(0, END)
     store_name.delete(0, END)
     store_email.delete(0, END)
     store_phone.delete(0, END)
     store_address.delete(0, END)
     store_zipcode.delete(0, END)
+    # Bike Category
+    # bike_cat_id.delete(0, END)
+    # bike_cat.delete(0, END)
 
 
 # Text boxes
@@ -142,6 +150,7 @@ bike_cat_label.grid(row=7, column=0, pady=10)
 # Submit button
 submit_button = Button(root, text="Submit", command=submit)
 submit_button.grid(row=12, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
+
 
 # Get data from database
 def query_to_console():
@@ -194,6 +203,7 @@ def delete_rows(tableName):
     conn.commit()
     c.close()
     conn.close()
+
 
 # Delete button
 delete_button = Button(root, text="Delete all rows", command=lambda: delete_rows("Stores"))
