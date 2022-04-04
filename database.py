@@ -93,7 +93,7 @@ def submit():
     conn.close()
 
 
-    # clear the text boxes
+    # Clear the text boxes once data is submitted
     # Store Id
     store_id.delete(0, END)
     store_name.delete(0, END)
@@ -102,8 +102,8 @@ def submit():
     store_address.delete(0, END)
     store_zipcode.delete(0, END)
     # Bike Category
-    # bike_cat_id.delete(0, END)
-    # bike_cat.delete(0, END)
+    bike_cat_id.delete(0, END)
+    bike_cat.delete(0, END)
 
 
 # Text boxes
@@ -153,32 +153,50 @@ submit_button.grid(row=12, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
 
 
 # Get data from database
-def query_to_console():
-    conn = sqlite3.connect('BikeStores.db')
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM Stores, BikeCategory")
-    pprint.pprint(c.fetchall())
-    c.close()
-    conn.close()
+# def query_to_console():
+#     conn = sqlite3.connect('BikeStores.db')
+#     c = conn.cursor()
+#
+#     c.execute("SELECT * FROM Stores, BikeCategory")
+#     pprint.pprint(c.fetchall())
+#     c.close()
+#     conn.close()
 
 
 # Print the data from the datbase to the GUI
 def query_to_gui():
     conn = sqlite3.connect('BikeStores.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM Stores, BikeCategory")
+    b = conn.cursor()
+    c.execute("Select * FROM Stores")
+    b.execute("Select * FROM BikeCategory")
+
     output = c.fetchall()
+    bike_output = b.fetchall()
 
     # check if there is data in output
+    # Stores
     if len(output) > 0:
-        print_records = ''
+        print_records = 'Stores'
         for record in output:
             print_records += str(record) + "\n"
 
         global query_label
         query_label = Label(root, text=print_records)
         query_label.grid(row=9, column=9, columnspan=3, pady=10, padx=10)
+    else:
+        time.sleep(1)
+        query_label.destroy()
+
+    # Bike Category
+    if len(bike_output) > 0:
+        print_records = 'Bike Category'
+        for record in bike_output:
+            print_records += str(record) + "\n"
+
+        # global query_label
+        query_label = Label(root, text=print_records)
+        query_label.grid(row=12, column=9, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -206,8 +224,12 @@ def delete_rows(tableName):
 
 
 # Delete button
-delete_button = Button(root, text="Delete all rows", command=lambda: delete_rows("Stores"))
+# Delete Stores
+delete_button = Button(root, text="Delete Stores", command=lambda: delete_rows("Stores"))
 delete_button.grid(row=14, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
+# Delete BikeCategory
+delete_button2 = Button(root, text="Delete BikeCategory", command=lambda: delete_rows("BikeCategory"))
+delete_button2.grid(row=15, column=1, columnspan=2, pady=10, padx=10, ipadx=100)
 
 conn.commit()
 conn.close()
