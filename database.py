@@ -133,27 +133,39 @@ def submit():
 
     # Inserting data into the database
     # Store
-    c.execute("INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "')")
+    c.execute("INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(
+        store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(
+        store_zipcode.get()) + "')")
     # BikeCategory
     c.execute("INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')")
     # BikeBrand
     c.execute("INSERT INTO BikeBrand VALUES ('" + str(bike_brand_id.get()) + "', '" + str(bike_brand.get()) + "')")
     # c.execute("INSERT INTO BikeProducts VALUES ('" + str(bike_prod_id.get()) + "', '" + str(bike_prod_name.get()) + "', '" + str(bike_prod_year.get()) + "', '" + str(bike_prod_price.get()) + "')")
     # BikeProducts
-    c.execute("INSERT INTO BikeProducts VALUES ('" + str(bike_prod_id.get()) + "', '" + str(bike_prod_name.get()) + "', '" + str(bike_prod_year.get()) + "', '" + str(bike_prod_price.get()) + "', '" + str(bike_brand_id.get()) + "', '" + str(bike_cat_id.get()) + "')")
+    c.execute("INSERT INTO BikeProducts VALUES ('" + str(bike_prod_id.get()) + "', '" + str(
+        bike_prod_name.get()) + "', '" + str(bike_prod_year.get()) + "', '" + str(bike_prod_price.get()) + "', '" + str(
+        bike_brand_id.get()) + "', '" + str(bike_cat_id.get()) + "')")
     # Customers
-    c.execute("INSERT INTO Customers VALUES ('" + str(cust_id.get()) + "', '" + str(cust_first_name.get()) + "', '" + str(cust_last_name.get()) + "', '" + str(cust_email.get()) + "', '" + str(cust_phone.get()) + "', '" + str(cust_address.get()) + "')")
+    c.execute("INSERT INTO Customers VALUES ('" + str(cust_id.get()) + "', '" + str(cust_first_name.get()) + "', '" + str(
+            cust_last_name.get()) + "', '" + str(cust_email.get()) + "', '" + str(cust_phone.get()) + "', '" + str(
+            cust_address.get()) + "')")
     # Orders
-    c.execute("INSERT INTO Orders VALUES ('" + str(order_id.get()) + "', '" + str(order_date.get()) + "', '" + str(cust_id.get()) + "', '" + str(store_staff_id.get()) + "', '" + str(discount.get()) + "', '" + str(total_price.get()) + "')")
+    c.execute("INSERT INTO Orders VALUES ('" + str(order_id.get()) + "', '" + str(order_date.get()) + "', '" + str(
+        cust_id.get()) + "', '" + str(store_staff_id.get()) + "', '" + str(discount.get()) + "', '" + str(
+        total_price.get()) + "')")
     # Stock
-    c.execute("INSERT INTO Stock VALUES ('" + str(stock_id.get()) + "', '" + str(store_id.get()) + "', '" + str(bike_prod_id.get()) + "', '" + str(stock_quantity.get()) + "')")
+    c.execute("INSERT INTO Stock VALUES ('" + str(stock_id.get()) + "', '" + str(store_id.get()) + "', '" + str(
+        bike_prod_id.get()) + "', '" + str(stock_quantity.get()) + "')")
     # Staff
-    c.execute("INSERT INTO Staff VALUES ('" + str(staff_id.get()) + "', '" + str(staff_first_name.get()) + "', '" + str(staff_last_name.get()) + "', '" + str(staff_email.get()) + "', '" + str(staff_phone.get()) + "', '" + str(staff_address.get()) + "')")
+    c.execute("INSERT INTO Staff VALUES ('" + str(staff_id.get()) + "', '" + str(staff_first_name.get()) + "', '" + str(
+        staff_last_name.get()) + "', '" + str(staff_email.get()) + "', '" + str(staff_phone.get()) + "', '" + str(
+        staff_address.get()) + "')")
     # StoreStaff
-    c.execute("INSERT INTO StoreStaff VALUES ('" + str(store_staff_id.get()) + "', '" + str(staff_id.get()) + "', '" + str(store_id.get()) + "')")
+    c.execute("INSERT INTO StoreStaff VALUES ('" + str(store_staff_id.get()) + "', '" + str(staff_id.get()) + "', '" + str(
+            store_id.get()) + "')")
     # Managers
-    c.execute("INSERT INTO Managers VALUES ('" + str(manager_id.get()) + "', '" + str(store_id.get()) + "', '" + str(staff_id.get()) + "')")
-
+    c.execute("INSERT INTO Managers VALUES ('" + str(manager_id.get()) + "', '" + str(store_id.get()) + "', '" + str(
+        staff_id.get()) + "')")
 
     # c.execute(sql_query)
     # c.execute(sql_query2)
@@ -161,7 +173,6 @@ def submit():
 
     c.close()
     conn.close()
-
 
     # Clear the text boxes once data is submitted
     # Stores
@@ -302,7 +313,6 @@ store_staff_id.grid(row=13, column=3, padx=20)
 manager_id = Entry(root, width=15)
 manager_id.grid(row=13, column=5, padx=20)
 
-
 # Labels
 # Stores
 store_id_label = Label(root, text="Store ID")
@@ -388,7 +398,6 @@ store_staff_id_label.grid(row=13, column=2, pady=10)
 # Managers
 manager_id_label = Label(root, text="Manager ID")
 manager_id_label.grid(row=13, column=4, pady=10)
-
 
 # Submit button
 submit_button = Button(root, text="Submit", command=submit)
@@ -573,10 +582,63 @@ def query_to_gui():
         time.sleep(1)
         query_label.destroy()
 
-
     c.close()
     conn.close()
 
+
+conn = sqlite3.connect('BikeStores.db')
+c = conn.cursor()
+# Buttons
+# Defining the buttons
+def search_stores():
+    search_stores = Tk()
+    search_stores.title("Search Stores")
+    search_stores.geometry("800x600")
+    search_stores.configure(background='#d9d9d9')
+
+    # Entry box to search for stores
+    def searching_stores():
+        searched_store = search_store_entry.get()
+        # search for a store id that matches the database
+
+        store_sql = "SELECT * FROM Stores WHERE StoreID = ?"
+        store_name = (searched_store, )
+        store_results = c.execute(store_sql, store_name)
+        store_results = c.fetchall()
+
+        if not store_results:
+            # print to gui that the store id does not exist
+            store_label = Label(search_stores, text="Store ID does not exist")
+            store_label.grid(row=1, column=1, columnspan=3, pady=10, padx=10)
+        # else:
+        #     print("No results found")
+        if store_results:
+            # print to gui that this store id exists
+            store_label = Label(search_stores, text="Store ID exists")
+            store_label.grid(row=2, column=1, columnspan=3, pady=10, padx=10)
+
+        searched_store_label = Label(search_stores, text="Store ID: " + str(searched_store))
+        searched_store_label.grid(row=2, column=0, pady=10, padx=10)
+
+    search_store_entry = Entry(search_stores)
+    search_store_entry.grid(row=0, column=1, pady=10, padx=10)
+    # Entry box label for store search
+    search_store_label = Label(search_stores, text="Search by Store ID:")
+    search_store_label.grid(row=0, column=0, pady=10, padx=10)
+    # Button to search for stores
+    search_store_button = Button(search_stores, text="Search the Stores", command=searching_stores)
+    search_store_button.grid(row=1, column=0, pady=10, padx=10)
+
+
+# Buttons on the main window to open the new window
+# Search Stores
+search_store_button = Button(root, text="Search Stores", command=search_stores)
+search_store_button.grid(row=20, column=3, columnspan=3, pady=10, padx=10)
+
+# Closeing the connection
+# conn.commit()
+# c.close()
+# conn.close()
 
 # Query button
 query_button = Button(root, text="Show records", command=query_to_gui)
@@ -628,9 +690,49 @@ delete_button9.grid(row=22, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
 delete_button10 = Button(root, text="Delete Managers", command=lambda: delete_rows("Managers"))
 delete_button10.grid(row=23, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
 
+# conn.commit()
+# conn.close()
 
-conn.commit()
-conn.close()
+# Connection for dropdown menu
+# conn = sqlite3.connect('BikeStores.db')
+# c = conn.cursor()
+#
+#
+# #Drop down menu
+# #Drop down menu for Stores
+# def show_dropdown():
+#     store_label = Label(root, text=store_var.get())
+#     store_label.grid(row=14, column=12, columnspan=3, pady=10, padx=10)
+#
+# store_var = StringVar(root)
+# store_var.set("Stores")
+#
+# store_list = [c.execute("SELECT * FROM Stores")]
+# store_menu = OptionMenu(root, store_var, *store_list)
+# store_menu.grid(row=14, column=10, columnspan=3, pady=10, padx=10)
+#
+# store_button = Button(root, text="Show selection", command=show_dropdown)
+# store_button.grid(row=15, column=10, columnspan=3, pady=10, padx=10)
+#
+# conn.commit()
+# c.close()
+# conn.close()
+
+# testing drop down menu
+
+# def show():
+#     myLabel = Label(root, text=clicked.get())
+#     myLabel.grid(row=14, column=12, columnspan=3, pady=10, padx=10)
+#
+# clicked = StringVar()
+# clicked.set("Stores")
+#
+# drop = OptionMenu(root, clicked, "Stores", "BikeCategory", "BikeBrand", "BikeProduct", "Customers", "Orders", "Stock", "Staff", "StoreStaff", "Managers")
+# drop.grid(row=14, column=10, columnspan=3, pady=10, padx=10)
+#
+# myButton = Button(root, text="Click Me!", command=show)
+# myButton.grid(row=15, column=10, columnspan=3, pady=10, padx=10)
+
 
 if __name__ == '__main__':
     root.mainloop()
