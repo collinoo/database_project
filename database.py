@@ -32,7 +32,7 @@ font_label = ("Arial", 14)
 font_ital = ("Arial", 10, "italic")
 font_bold = ("Arial", 10, "bold")
 
-# create a scroll bar
+# create a scroll bar yep
 # scrollbar = Scrollbar(frame)
 # scrollbar.pack(side=RIGHT, fill=Y)
 # # create a scroll bar for the other direction
