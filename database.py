@@ -32,12 +32,7 @@ font_label = ("Arial", 14)
 font_ital = ("Arial", 10, "italic")
 font_bold = ("Arial", 10, "bold")
 
-# create a scroll bar yep
-# scrollbar = Scrollbar(frame)
-# scrollbar.pack(side=RIGHT, fill=Y)
-# # create a scroll bar for the other direction
-# scrollbar2 = Scrollbar(frame, orient=HORIZONTAL)
-# scrollbar2.pack(side=BOTTOM, fill=X)
+# scrollbar
 
 # Connect to the database
 conn = sqlite3.connect('BikeStores.db')
@@ -119,17 +114,13 @@ c.execute(""" CREATE TABLE IF NOT EXISTS Managers (
             StaffID INTEGER references Staff(StaffID)
     )""")
 
-
+# SUBMITTING TOGETHER, FOREIGN KEYS WORK
 def submit():
     # Connect to the database
     conn = sqlite3.connect('BikeStores.db')
 
     # Create cursor
     c = conn.cursor()
-
-    # Get data from Input boxes and pass to sql_query
-    # sql_query = "INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(store_zipcode.get()) + "', '" + "INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')" + "')"
-    # sql_query2 = "INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')"
 
     # Inserting data into the database
     # Store
@@ -140,7 +131,6 @@ def submit():
     c.execute("INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')")
     # BikeBrand
     c.execute("INSERT INTO BikeBrand VALUES ('" + str(bike_brand_id.get()) + "', '" + str(bike_brand.get()) + "')")
-    # c.execute("INSERT INTO BikeProducts VALUES ('" + str(bike_prod_id.get()) + "', '" + str(bike_prod_name.get()) + "', '" + str(bike_prod_year.get()) + "', '" + str(bike_prod_price.get()) + "')")
     # BikeProducts
     c.execute("INSERT INTO BikeProducts VALUES ('" + str(bike_prod_id.get()) + "', '" + str(
         bike_prod_name.get()) + "', '" + str(bike_prod_year.get()) + "', '" + str(bike_prod_price.get()) + "', '" + str(
@@ -167,8 +157,6 @@ def submit():
     c.execute("INSERT INTO Managers VALUES ('" + str(manager_id.get()) + "', '" + str(store_id.get()) + "', '" + str(
         staff_id.get()) + "')")
 
-    # c.execute(sql_query)
-    # c.execute(sql_query2)
     conn.commit()
 
     c.close()
@@ -226,6 +214,246 @@ def submit():
     # Managers
     manager_id.delete(0, END)
 
+# SUBMITTING INDIVIDUALLY (FOREIGN KEYS DONT WORK)
+def submit_stores():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO Stores VALUES ('" + str(store_id.get()) + "', '" + str(store_name.get()) + "', '" + str(
+        store_email.get()) + "', '" + str(store_phone.get()) + "', '" + str(store_address.get()) + "', '" + str(
+        store_zipcode.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Stores
+    store_id.delete(0, END)
+    store_name.delete(0, END)
+    store_email.delete(0, END)
+    store_phone.delete(0, END)
+    store_address.delete(0, END)
+    store_zipcode.delete(0, END)
+
+# submit_stores buttons
+submit_stores_btn = Button(root, text="Submit Stores", fg="black", width=12, height=1, command=submit_stores)
+# place under the stores label's
+submit_stores_btn.grid(row=7, column=0, padx=10, pady=10)
+
+
+def submit_bike_category():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO BikeCategory VALUES ('" + str(bike_cat_id.get()) + "', '" + str(bike_cat.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Bike Category
+    bike_cat_id.delete(0, END)
+    bike_cat.delete(0, END)
+
+# submit_bike_category buttons
+submit_bike_category_btn = Button(root, text="Submit Bike Cat", fg="black", width=12, height=1, command=submit_bike_category)
+# place under the bike category label's
+submit_bike_category_btn.grid(row=3, column=2, padx=10, pady=10)
+
+def submit_bike_brand():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO BikeBrand VALUES ('" + str(bike_brand_id.get()) + "', '" + str(bike_brand.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Bike Brand
+    bike_brand_id.delete(0, END)
+    bike_brand.delete(0, END)
+
+# submit_bike_brand buttons
+submit_bike_brand_btn = Button(root, text="Submit Bike Brand", fg="black", width=14, height=1, command=submit_bike_brand)
+# place under the bike brand label's
+submit_bike_brand_btn.grid(row=3, column=4, padx=10, pady=10)
+
+def submit_bike_product():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO BikeProducts VALUES ('" + str(bike_prod_id.get()) + "', '" + str(
+        bike_prod_name.get()) + "', '" + str(bike_prod_year.get()) + "', '" + str(bike_prod_price.get()) + "', '" + str(
+        bike_brand_id.get()) + "', '" + str(bike_cat_id.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Bike Product
+    bike_prod_id.delete(0, END)
+    bike_prod_name.delete(0, END)
+    bike_prod_year.delete(0, END)
+    bike_prod_price.delete(0, END)
+
+# submit_bike_product buttons
+submit_bike_product_btn = Button(root, text="Submit Bike Prod", fg="black", width=14, height=1, command=submit_bike_product)
+# place under the bike product label's
+submit_bike_product_btn.grid(row=4, column=6, padx=10, pady=10)
+
+def submit_customer():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO Customers VALUES ('" + str(cust_id.get()) + "', '" + str(cust_first_name.get()) + "', '" + str(
+        cust_last_name.get()) + "', '" + str(cust_email.get()) + "', '" + str(cust_phone.get()) + "', '" + str(
+        cust_address.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Customer
+    cust_id.delete(0, END)
+    cust_first_name.delete(0, END)
+    cust_last_name.delete(0, END)
+    cust_email.delete(0, END)
+    cust_phone.delete(0, END)
+    cust_address.delete(0, END)
+
+# submit_customer buttons
+submit_customer_btn = Button(root, text="Submit Customer", fg="black", width=14, height=1, command=submit_customer)
+# place under the customer label's
+submit_customer_btn.grid(row=7, column=8, padx=10, pady=10)
+
+def submit_order():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO Orders VALUES ('" + str(order_id.get()) + "', '" + str(order_date.get()) + "', '" + str(
+        cust_id.get()) + "', '" + str(store_staff_id.get()) + "', '" + str(discount.get()) + "', '" + str(
+        total_price.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Order
+    order_id.delete(0, END)
+    order_date.delete(0, END)
+    discount.delete(0, END)
+    total_price.delete(0, END)
+
+# submit_orders buttons
+submit_order_btn = Button(root, text="Submit Orders", fg="black", width=14, height=1, command=submit_order)
+# place under the order label's
+submit_order_btn.grid(row=4, column=10, padx=10, pady=10)
+
+def submit_stock():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO Stock VALUES ('" + str(stock_id.get()) + "', '" + str(store_id.get()) + "', '" + str(
+        bike_prod_id.get()) + "', '" + str(stock_quantity.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Stock
+    stock_id.delete(0, END)
+    stock_quantity.delete(0, END)
+
+# submit_stock buttons
+submit_stock_btn = Button(root, text="Submit Stock", fg="black", width=14, height=1, command=submit_stock)
+# place under the stock label's
+submit_stock_btn.grid(row=15, column=0, padx=10, pady=10)
+
+def submit_staff():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO Staff VALUES ('" + str(staff_id.get()) + "', '" + str(staff_first_name.get()) + "', '" + str(
+        staff_last_name.get()) + "', '" + str(staff_email.get()) + "', '" + str(staff_phone.get()) + "', '" + str(
+        staff_address.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Staff
+    staff_id.delete(0, END)
+    staff_first_name.delete(0, END)
+    staff_last_name.delete(0, END)
+    staff_email.delete(0, END)
+    staff_phone.delete(0, END)
+    staff_address.delete(0, END)
+
+# submit_staff buttons
+submit_staff_btn = Button(root, text="Submit Staff", fg="black", width=14, height=1, command=submit_staff)
+# place under the staff label's
+submit_staff_btn.grid(row=19, column=2, padx=10, pady=10)
+
+def submit_storestaff():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO StoreStaff VALUES ('" + str(store_staff_id.get()) + "', '" + str(staff_id.get()) + "', '" + str(
+            store_id.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # StoreStaff
+    store_staff_id.delete(0, END)
+
+# submit_storestaff buttons
+submit_storestaff_btn = Button(root, text="Submit StoreStaff", fg="black", width=14, height=1, command=submit_storestaff)
+# place under the store staff label's
+submit_storestaff_btn.grid(row=14, column=4, padx=10, pady=10)
+
+def submit_manager():
+    conn = sqlite3.connect('BikeStores.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO Managers VALUES ('" + str(manager_id.get()) + "', '" + str(store_id.get()) + "', '" + str(
+        staff_id.get()) + "')")
+
+    conn.commit()
+
+    c.close()
+    conn.close()
+
+    # Clear the text boxes once data is submitted
+    # Manager
+    manager_id.delete(0, END)
+
+# submit_manager buttons
+submit_manager_btn = Button(root, text="Submit Manager", fg="black", width=14, height=1, command=submit_manager)
+# place under the manager label's
+submit_manager_btn.grid(row=14, column=6, padx=10, pady=10)
+
+# SUBMITTING ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 # Text boxes (used to enter and identify data)
 # Stores
@@ -286,32 +514,28 @@ total_price = Entry(root, width=15)
 total_price.grid(row=3, column=11)
 # Stock
 stock_id = Entry(root, width=15)
-stock_id.grid(row=0, column=13, padx=20)
+stock_id.grid(row=13, column=1, padx=20)
 stock_quantity = Entry(root, width=15)
-stock_quantity.grid(row=1, column=13)
+stock_quantity.grid(row=14, column=1)
 # Staff
 staff_id = Entry(root, width=15)
-staff_id.grid(row=13, column=1, padx=20)
+staff_id.grid(row=13, column=3)
 staff_first_name = Entry(root, width=15)
-staff_first_name.grid(row=14, column=1)
+staff_first_name.grid(row=14, column=3)
 staff_last_name = Entry(root, width=15)
-staff_last_name.grid(row=15, column=1)
+staff_last_name.grid(row=15, column=3)
 staff_email = Entry(root, width=15)
-staff_email.grid(row=16, column=1)
+staff_email.grid(row=16, column=3)
 staff_phone = Entry(root, width=15)
-staff_phone.grid(row=17, column=1)
+staff_phone.grid(row=17, column=3)
 staff_address = Entry(root, width=15)
-staff_address.grid(row=18, column=1)
+staff_address.grid(row=18, column=3)
 # StoreStaff
 store_staff_id = Entry(root, width=15)
-store_staff_id.grid(row=13, column=3, padx=20)
-# store_id = Entry(root, width=15)
-# store_id.grid(row=14, column=3)
-# staff_id = Entry(root, width=15)
-# staff_id.grid(row=15, column=3)
+store_staff_id.grid(row=13, column=5, padx=20)
 # Managers
 manager_id = Entry(root, width=15)
-manager_id.grid(row=13, column=5, padx=20)
+manager_id.grid(row=13, column=7, padx=20)
 
 # Labels
 # Stores
@@ -364,44 +588,42 @@ order_id_label = Label(root, text="Order ID")
 order_id_label.grid(row=0, column=10, pady=10)
 order_date_label = Label(root, text="Order Date")
 order_date_label.grid(row=1, column=10, pady=10)
-# store_staff_id_label = Label(root, text="Store Staff ID")
-# store_staff_id_label.grid(row=2, column=10, pady=10)
 discount_label = Label(root, text="Discount")
 discount_label.grid(row=2, column=10, pady=10)
 total_price_label = Label(root, text="Total Price")
 total_price_label.grid(row=3, column=10, pady=10)
 # Stock
 stock_id_label = Label(root, text="Stock ID")
-stock_id_label.grid(row=0, column=12, pady=10)
+stock_id_label.grid(row=13, column=0, pady=10)
 stock_quantity_label = Label(root, text="Stock Quantity")
-stock_quantity_label.grid(row=1, column=12, pady=10)
+stock_quantity_label.grid(row=14, column=0, pady=10)
 # Staff
 staff_id_label = Label(root, text="Staff ID")
-staff_id_label.grid(row=13, column=0, pady=10)
+staff_id_label.grid(row=13, column=2, pady=10)
 staff_first_name_label = Label(root, text="Staff First Name")
-staff_first_name_label.grid(row=14, column=0, pady=10)
+staff_first_name_label.grid(row=14, column=2, pady=10)
 staff_last_name_label = Label(root, text="Staff Last Name")
-staff_last_name_label.grid(row=15, column=0, pady=10)
+staff_last_name_label.grid(row=15, column=2, pady=10)
 staff_email_label = Label(root, text="Staff Email")
-staff_email_label.grid(row=16, column=0, pady=10)
+staff_email_label.grid(row=16, column=2, pady=10)
 staff_phone_label = Label(root, text="Staff Phone")
-staff_phone_label.grid(row=17, column=0, pady=10)
+staff_phone_label.grid(row=17, column=2, pady=10)
 staff_address_label = Label(root, text="Staff Address")
-staff_address_label.grid(row=18, column=0, pady=10)
+staff_address_label.grid(row=18, column=2, pady=10)
 # StoreStaff
 store_staff_id_label = Label(root, text="Store Staff ID")
-store_staff_id_label.grid(row=13, column=2, pady=10)
+store_staff_id_label.grid(row=13, column=4, pady=10)
 # store_staff_store_id_label = Label(root, text="Store ID")
 # store_staff_store_id_label.grid(row=14, column=2, pady=10)
 # store_staff_staff_id_label = Label(root, text="Staff ID")
 # store_staff_staff_id_label.grid(row=15, column=2, pady=10)
 # Managers
 manager_id_label = Label(root, text="Manager ID")
-manager_id_label.grid(row=13, column=4, pady=10)
+manager_id_label.grid(row=13, column=6, pady=10)
 
 # Submit button
 submit_button = Button(root, text="Submit", command=submit)
-submit_button.grid(row=12, column=6, columnspan=2, pady=10, padx=10, ipadx=30)
+submit_button.grid(row=12, column=8, columnspan=2, pady=10, padx=10, ipadx=10)
 
 
 # Get data from database
@@ -592,48 +814,158 @@ c = conn.cursor()
 # Defining the buttons
 def search_stores():
     search_stores = Tk()
-    search_stores.title("Search Stores")
+    search_stores.title("Sales/Staff")
     search_stores.geometry("800x600")
     search_stores.configure(background='#d9d9d9')
 
-    # Entry box to search for stores
-    def searching_stores():
-        searched_store = search_store_entry.get()
-        # search for a store id that matches the database
+    # Entry box to search for stores (Pick a store from the pulldown)
+    # Working within the search_stores window
 
-        store_sql = "SELECT * FROM Stores WHERE StoreID = ?"
-        store_name = (searched_store, )
-        store_results = c.execute(store_sql, store_name)
-        store_results = c.fetchall()
+    stores = ['Store 1', 'Store 2', 'Store 3']
 
-        if not store_results:
-            # print to gui that the store id does not exist
-            store_label = Label(search_stores, text="Store ID does not exist")
-            store_label.grid(row=1, column=1, columnspan=3, pady=10, padx=10)
-        # else:
-        #     print("No results found")
-        if store_results:
-            # print to gui that this store id exists
-            store_label = Label(search_stores, text="Store ID exists")
-            store_label.grid(row=2, column=1, columnspan=3, pady=10, padx=10)
+    store_one = [(c.execute("Select * FROM Stores WHERE StoreID = 1")).fetchall()]
+    store_two = [(c.execute("Select * FROM Stores WHERE StoreID = 2")).fetchall()]
+    store_three = [(c.execute("Select * FROM Stores WHERE StoreID = 3")).fetchall()]
 
-        searched_store_label = Label(search_stores, text="Store ID: " + str(searched_store))
-        searched_store_label.grid(row=2, column=0, pady=10, padx=10)
+    def dropdown_stores(e):
+        listbox3.delete(0, END)
+        if store_label.get() == "Store 1":
+            for item in store_one:
+                listbox3.insert(END, item)
+        if store_label.get() == "Store 2":
+            for item in store_two:
+                listbox3.insert(END, item)
+        if store_label.get() == "Store 3":
+            for item in store_three:
+                listbox3.insert(END, item)
 
-    search_store_entry = Entry(search_stores)
-    search_store_entry.grid(row=0, column=1, pady=10, padx=10)
-    # Entry box label for store search
-    search_store_label = Label(search_stores, text="Search by Store ID:")
-    search_store_label.grid(row=0, column=0, pady=10, padx=10)
-    # Button to search for stores
-    search_store_button = Button(search_stores, text="Search the Stores", command=searching_stores)
-    search_store_button.grid(row=1, column=0, pady=10, padx=10)
+    # Buttons in the search store window
+    # Drop down box to select the store
+    store_label = ttk.Combobox(search_stores, values=stores)
+    store_label.current(0)
+    store_label.grid(row=0, column=0, pady=2, padx=2, ipadx=5)
+    # Listbox to print store results
+    listbox3 = Listbox(search_stores, height=5, width=5)
+    listbox3.grid(row=1, column=0, pady=5, padx=5, ipadx=50)
+    # Bind
+    store_label.bind("<<ComboboxSelected>>", dropdown_stores)
+
+    # Searching for what stores have what bikes (within the search_stores window)
+    sizes = ['Small', 'Medium', 'Large']
+
+    # select the first value in the Stock table from column BikeProdID
+    small_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 1")).fetchall()]
+    medium_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 2")).fetchall()]
+    large_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 3")).fetchall()]
+
+    # When a store is picked, the bikes will show up
+    def pick_color(e):
+        listbox2.delete(0, END)
+        if my_combo.get() == "Small":
+            for item in small_colors:
+                listbox2.insert(END, item)
+        if my_combo.get() == "Medium":
+            for item in medium_colors:
+                listbox2.insert(END, item)
+        if my_combo.get() == "Large":
+            for item in large_colors:
+                listbox2.insert(END, item)
+
+    # Create a drop down box to select the store
+    my_combo = ttk.Combobox(search_stores, values=sizes)
+    my_combo.current(0)
+    my_combo.grid(row=7, column=0, pady=2, padx=2, ipadx=5)
+    # Listbox where input from dropbox will show up
+    listbox2 = Listbox(search_stores, height=5, width=5)
+    listbox2.grid(row=8, column=0, pady=5, padx=5, ipadx=50)
+    # Bind
+    my_combo.bind("<<ComboboxSelected>>", pick_color)
+
+    # Staff functionality
+    staff = ['Bob Bill', 'Randy Rall', 'Sally Smith', 'Joe Johnson']
+
+    staff_one = [(c.execute("Select * FROM Staff WHERE StaffFirstName = 'Bob'")).fetchall()]
+    staff_two = [(c.execute("Select * FROM Staff WHERE StaffFirstName = 'Randy'")).fetchall()]
+    staff_three = [(c.execute("Select * FROM Staff WHERE StaffFirstName = 'Sally'")).fetchall()]
+    staff_four = [(c.execute("Select * FROM Staff WHERE StaffFirstName = 'Joe'")).fetchall()]
+
+    # Pick a staff member from drop down box
+    def pick_staff(e):
+        listbox4.delete(0, END)
+        if staff_label.get() == "Bob Bill":
+            for item in staff_one:
+                listbox4.insert(END, item)
+        if staff_label.get() == "Randy Rall":
+            for item in staff_two:
+                listbox4.insert(END, item)
+        if staff_label.get() == "Sally Smith":
+            for item in staff_three:
+                listbox4.insert(END, item)
+        if staff_label.get() == "Joe Johnson":
+            for item in staff_four:
+                listbox4.insert(END, item)
+
+    # Staff drop down box
+    staff_label = ttk.Combobox(search_stores, values=staff)
+    staff_label.current(0)
+    staff_label.grid(row=0, column=1, pady=2, padx=2, ipadx=5)
+    # Listbox to show staff results
+    listbox4 = Listbox(search_stores, height=5, width=5)
+    listbox4.grid(row=1, column=1, pady=5, padx=5, ipadx=50)
+    # Bind
+    staff_label.bind("<<ComboboxSelected>>", pick_staff)
+
+    # Customer functionality
+    def submit_customers():
+        # Customers
+        c.execute(
+            "INSERT INTO Customers VALUES ('" + str(cust_id.get()) + "', '" + str(cust_first_name.get()) + "', '" + str(
+                cust_last_name.get()) + "', '" + str(cust_email.get()) + "', '" + str(cust_phone.get()) + "', '" + str(
+                cust_address.get()) + "')")
+        # Delete after entry
+        conn.commit()
+        cust_id.delete(0, END)
+        cust_first_name.delete(0, END)
+        cust_last_name.delete(0, END)
+        cust_email.delete(0, END)
+        cust_phone.delete(0, END)
+        cust_address.delete(0, END)
+
+    # Entry boxes for customers
+    cust_id = Entry(search_stores, width=10)
+    cust_id.grid(row=0, column=9, padx=20)
+    cust_first_name = Entry(search_stores, width=10)
+    cust_first_name.grid(row=1, column=9)
+    cust_last_name = Entry(search_stores, width=10)
+    cust_last_name.grid(row=2, column=9)
+    cust_email = Entry(search_stores, width=10)
+    cust_email.grid(row=3, column=9)
+    cust_phone = Entry(search_stores, width=10)
+    cust_phone.grid(row=4, column=9)
+    cust_address = Entry(search_stores, width=10)
+    cust_address.grid(row=5, column=9)
+    # Labels for customers
+    cust_id_label = Label(search_stores, text="Customer ID")
+    cust_id_label.grid(row=0, column=8, pady=10)
+    cust_first_name_label = Label(search_stores, text="Customer First Name")
+    cust_first_name_label.grid(row=1, column=8, pady=10)
+    cust_last_name_label = Label(search_stores, text="Customer Last Name")
+    cust_last_name_label.grid(row=2, column=8, pady=10)
+    cust_email_label = Label(search_stores, text="Customer Email")
+    cust_email_label.grid(row=3, column=8, pady=10)
+    cust_phone_label = Label(search_stores, text="Customer Phone")
+    cust_phone_label.grid(row=4, column=8, pady=10)
+    cust_address_label = Label(search_stores, text="Customer Address")
+    cust_address_label.grid(row=5, column=8, pady=10)
+    # Submit button
+    submit_button = Button(search_stores, text="Submit Customers", command=submit_customers)
+    submit_button.grid(row=8, column=8, columnspan=2, pady=10, padx=10, ipadx=10)
 
 
 # Buttons on the main window to open the new window
 # Search Stores
-search_store_button = Button(root, text="Search Stores", command=search_stores)
-search_store_button.grid(row=20, column=3, columnspan=3, pady=10, padx=10)
+search_store_button = Button(root, text="Sales/Staff", command=search_stores)
+search_store_button.grid(row=17, column=5, columnspan=3, pady=10, padx=10)
 
 # Closeing the connection
 # conn.commit()
@@ -642,8 +974,10 @@ search_store_button.grid(row=20, column=3, columnspan=3, pady=10, padx=10)
 
 # Query button
 query_button = Button(root, text="Show records", command=query_to_gui)
-query_button.grid(row=13, column=6, columnspan=2, pady=10, padx=10, ipadx=30)
+query_button.grid(row=13, column=8, columnspan=2, pady=10, padx=10, ipadx=10)
 
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 def delete_rows(tableName):
     conn = sqlite3.connect('BikeStores.db')
@@ -661,34 +995,34 @@ def delete_rows(tableName):
 # Delete button
 # Delete Stores
 delete_button = Button(root, text="Delete Stores", command=lambda: delete_rows("Stores"))
-delete_button.grid(row=14, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button.grid(row=14, column=8, columnspan=2, pady=10, padx=10)
 # Delete BikeCategory
 delete_button2 = Button(root, text="Delete BikeCategory", command=lambda: delete_rows("BikeCategory"))
-delete_button2.grid(row=15, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button2.grid(row=15, column=8, columnspan=2, pady=10, padx=10)
 # Delete BikeBrand
 delete_button3 = Button(root, text="Delete BikeBrand", command=lambda: delete_rows("BikeBrand"))
-delete_button3.grid(row=16, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button3.grid(row=16, column=8, columnspan=2, pady=10, padx=10)
 # Delete BikeProduct
 delete_button4 = Button(root, text="Delete BikeProducts", command=lambda: delete_rows("BikeProducts"))
-delete_button4.grid(row=17, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button4.grid(row=17, column=8, columnspan=2, pady=10, padx=10)
 # Delete Customers
 delete_button5 = Button(root, text="Delete Customers", command=lambda: delete_rows("Customers"))
-delete_button5.grid(row=18, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button5.grid(row=18, column=8, columnspan=2, pady=10, padx=10)
 # Delete Orders
 delete_button6 = Button(root, text="Delete Orders", command=lambda: delete_rows("Orders"))
-delete_button6.grid(row=19, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button6.grid(row=19, column=8, columnspan=2, pady=10, padx=10)
 # Delete Stock
 delete_button7 = Button(root, text="Delete Stock", command=lambda: delete_rows("Stock"))
-delete_button7.grid(row=20, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button7.grid(row=20, column=8, columnspan=2, pady=10, padx=10)
 # Delete Staff
 delete_button8 = Button(root, text="Delete Staff", command=lambda: delete_rows("Staff"))
-delete_button8.grid(row=21, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button8.grid(row=21, column=8, columnspan=2, pady=10, padx=10)
 # Delete StoreStaff
 delete_button9 = Button(root, text="Delete StoreStaff", command=lambda: delete_rows("StoreStaff"))
-delete_button9.grid(row=22, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button9.grid(row=22, column=8, columnspan=2, pady=10, padx=10)
 # Delete Managers
 delete_button10 = Button(root, text="Delete Managers", command=lambda: delete_rows("Managers"))
-delete_button10.grid(row=23, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
+delete_button10.grid(row=23, column=8, columnspan=2, pady=10, padx=10)
 
 # conn.commit()
 # conn.close()
@@ -696,43 +1030,6 @@ delete_button10.grid(row=23, column=6, columnspan=2, pady=10, padx=10, ipadx=20)
 # Connection for dropdown menu
 # conn = sqlite3.connect('BikeStores.db')
 # c = conn.cursor()
-#
-#
-# #Drop down menu
-# #Drop down menu for Stores
-# def show_dropdown():
-#     store_label = Label(root, text=store_var.get())
-#     store_label.grid(row=14, column=12, columnspan=3, pady=10, padx=10)
-#
-# store_var = StringVar(root)
-# store_var.set("Stores")
-#
-# store_list = [c.execute("SELECT * FROM Stores")]
-# store_menu = OptionMenu(root, store_var, *store_list)
-# store_menu.grid(row=14, column=10, columnspan=3, pady=10, padx=10)
-#
-# store_button = Button(root, text="Show selection", command=show_dropdown)
-# store_button.grid(row=15, column=10, columnspan=3, pady=10, padx=10)
-#
-# conn.commit()
-# c.close()
-# conn.close()
-
-# testing drop down menu
-
-# def show():
-#     myLabel = Label(root, text=clicked.get())
-#     myLabel.grid(row=14, column=12, columnspan=3, pady=10, padx=10)
-#
-# clicked = StringVar()
-# clicked.set("Stores")
-#
-# drop = OptionMenu(root, clicked, "Stores", "BikeCategory", "BikeBrand", "BikeProduct", "Customers", "Orders", "Stock", "Staff", "StoreStaff", "Managers")
-# drop.grid(row=14, column=10, columnspan=3, pady=10, padx=10)
-#
-# myButton = Button(root, text="Click Me!", command=show)
-# myButton.grid(row=15, column=10, columnspan=3, pady=10, padx=10)
-
 
 if __name__ == '__main__':
     root.mainloop()
