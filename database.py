@@ -1077,13 +1077,6 @@ def search_stores():
         conn.commit()
 
 
-        # if store_label.get() == "Store 2":
-        #     for item in store_two:
-        #         listbox3.insert(END, item)
-        # if store_label.get() == "Store 3":
-        #     for item in store_three:
-        #         listbox3.insert(END, item)
-
     # Create a button to subtract 1 from quantity
     subtract_button = Button(search_stores, text="Item Sold! -1 quantity", command=subtract_quantity)
     subtract_button.grid(row=3, column=14)
