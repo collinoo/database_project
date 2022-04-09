@@ -32,7 +32,8 @@ font_label = ("Arial", 14)
 font_ital = ("Arial", 10, "italic")
 font_bold = ("Arial", 10, "bold")
 
-# scrollbar
+# create a scrollbar
+
 
 # Connect to the database
 conn = sqlite3.connect('BikeStores.db')
@@ -112,6 +113,13 @@ c.execute(""" CREATE TABLE IF NOT EXISTS Managers (
             ManagerID INTEGER,
             StoreID INTEGER references Stores(StoreID),
             StaffID INTEGER references Staff(StaffID)
+    )""")
+c.execute(""" CREATE TABLE IF NOT EXISTS Items (
+            ItemToOrderID INTEGER,
+            OrderID INTEGER references Orders(OrderID),
+            BikeProdID INTEGER references BikeProducts(BikeProdID),
+            BikeProdName nvarchar(50),
+            ItemQuantity INTEGER
     )""")
 
 # SUBMITTING TOGETHER, FOREIGN KEYS WORK
@@ -238,7 +246,7 @@ def submit_stores():
     store_zipcode.delete(0, END)
 
 # submit_stores buttons
-submit_stores_btn = Button(root, text="Submit Stores", fg="black", width=12, height=1, command=submit_stores)
+submit_stores_btn = Button(root, text="Submit Stores", fg="black", width=10, height=1, command=submit_stores)
 # place under the stores label's
 submit_stores_btn.grid(row=7, column=0, padx=10, pady=10)
 
@@ -281,7 +289,7 @@ def submit_bike_brand():
     bike_brand.delete(0, END)
 
 # submit_bike_brand buttons
-submit_bike_brand_btn = Button(root, text="Submit Bike Brand", fg="black", width=14, height=1, command=submit_bike_brand)
+submit_bike_brand_btn = Button(root, text="Submit \nBike Brand", fg="black", width=8, height=2, command=submit_bike_brand)
 # place under the bike brand label's
 submit_bike_brand_btn.grid(row=3, column=4, padx=10, pady=10)
 
@@ -306,7 +314,7 @@ def submit_bike_product():
     bike_prod_price.delete(0, END)
 
 # submit_bike_product buttons
-submit_bike_product_btn = Button(root, text="Submit Bike Prod", fg="black", width=14, height=1, command=submit_bike_product)
+submit_bike_product_btn = Button(root, text="Submit Bike Prod", fg="black", width=13, height=1, command=submit_bike_product)
 # place under the bike product label's
 submit_bike_product_btn.grid(row=4, column=6, padx=10, pady=10)
 
@@ -333,7 +341,7 @@ def submit_customer():
     cust_address.delete(0, END)
 
 # submit_customer buttons
-submit_customer_btn = Button(root, text="Submit Customer", fg="black", width=14, height=1, command=submit_customer)
+submit_customer_btn = Button(root, text="Submit Customer", fg="black", width=13, height=1, command=submit_customer)
 # place under the customer label's
 submit_customer_btn.grid(row=7, column=8, padx=10, pady=10)
 
@@ -358,9 +366,9 @@ def submit_order():
     total_price.delete(0, END)
 
 # submit_orders buttons
-submit_order_btn = Button(root, text="Submit Orders", fg="black", width=14, height=1, command=submit_order)
+submit_order_btn = Button(root, text="Submit Orders", fg="black", width=10, height=1, command=submit_order)
 # place under the order label's
-submit_order_btn.grid(row=4, column=10, padx=10, pady=10)
+submit_order_btn.grid(row=4, column=10)
 
 def submit_stock():
     conn = sqlite3.connect('BikeStores.db')
@@ -380,7 +388,7 @@ def submit_stock():
     stock_quantity.delete(0, END)
 
 # submit_stock buttons
-submit_stock_btn = Button(root, text="Submit Stock", fg="black", width=14, height=1, command=submit_stock)
+submit_stock_btn = Button(root, text="Submit Stock", fg="black", width=10, height=1, command=submit_stock)
 # place under the stock label's
 submit_stock_btn.grid(row=15, column=0, padx=10, pady=10)
 
@@ -407,7 +415,7 @@ def submit_staff():
     staff_address.delete(0, END)
 
 # submit_staff buttons
-submit_staff_btn = Button(root, text="Submit Staff", fg="black", width=14, height=1, command=submit_staff)
+submit_staff_btn = Button(root, text="Submit Staff", fg="black", width=9, height=1, command=submit_staff)
 # place under the staff label's
 submit_staff_btn.grid(row=19, column=2, padx=10, pady=10)
 
@@ -428,7 +436,7 @@ def submit_storestaff():
     store_staff_id.delete(0, END)
 
 # submit_storestaff buttons
-submit_storestaff_btn = Button(root, text="Submit StoreStaff", fg="black", width=14, height=1, command=submit_storestaff)
+submit_storestaff_btn = Button(root, text="Submit StoreStaff", fg="black", width=13, height=1, command=submit_storestaff)
 # place under the store staff label's
 submit_storestaff_btn.grid(row=14, column=4, padx=10, pady=10)
 
@@ -449,7 +457,7 @@ def submit_manager():
     manager_id.delete(0, END)
 
 # submit_manager buttons
-submit_manager_btn = Button(root, text="Submit Manager", fg="black", width=14, height=1, command=submit_manager)
+submit_manager_btn = Button(root, text="Submit Manager", fg="black", width=12, height=1, command=submit_manager)
 # place under the manager label's
 submit_manager_btn.grid(row=14, column=6, padx=10, pady=10)
 
@@ -458,7 +466,7 @@ submit_manager_btn.grid(row=14, column=6, padx=10, pady=10)
 # Text boxes (used to enter and identify data)
 # Stores
 store_id = Entry(root, width=15)
-store_id.grid(row=0, column=1, padx=20)
+store_id.grid(row=0, column=1)
 store_name = Entry(root, width=15)
 store_name.grid(row=1, column=1)
 store_email = Entry(root, width=15)
@@ -471,17 +479,17 @@ store_zipcode = Entry(root, width=15)
 store_zipcode.grid(row=5, column=1)
 # Bike Category
 bike_cat_id = Entry(root, width=15)
-bike_cat_id.grid(row=0, column=3, padx=20)
+bike_cat_id.grid(row=0, column=3)
 bike_cat = Entry(root, width=15)
 bike_cat.grid(row=1, column=3)
 # Bike Brand
 bike_brand_id = Entry(root, width=15)
-bike_brand_id.grid(row=0, column=5, padx=20)
+bike_brand_id.grid(row=0, column=5)
 bike_brand = Entry(root, width=15)
 bike_brand.grid(row=1, column=5)
 # Bike Product
 bike_prod_id = Entry(root, width=15)
-bike_prod_id.grid(row=0, column=7, padx=20)
+bike_prod_id.grid(row=0, column=7)
 bike_prod_name = Entry(root, width=15)
 bike_prod_name.grid(row=1, column=7)
 bike_prod_year = Entry(root, width=15)
@@ -503,18 +511,16 @@ cust_address = Entry(root, width=15)
 cust_address.grid(row=5, column=9)
 # Orders
 order_id = Entry(root, width=15)
-order_id.grid(row=0, column=11, padx=20)
+order_id.grid(row=0, column=11)
 order_date = Entry(root, width=15)
 order_date.grid(row=1, column=11)
-# store_staff_id = Entry(root, width=15)
-# store_staff_id.grid(row=2, column=11)
 discount = Entry(root, width=15)
 discount.grid(row=2, column=11)
 total_price = Entry(root, width=15)
 total_price.grid(row=3, column=11)
 # Stock
 stock_id = Entry(root, width=15)
-stock_id.grid(row=13, column=1, padx=20)
+stock_id.grid(row=13, column=1)
 stock_quantity = Entry(root, width=15)
 stock_quantity.grid(row=14, column=1)
 # Staff
@@ -532,10 +538,10 @@ staff_address = Entry(root, width=15)
 staff_address.grid(row=18, column=3)
 # StoreStaff
 store_staff_id = Entry(root, width=15)
-store_staff_id.grid(row=13, column=5, padx=20)
+store_staff_id.grid(row=13, column=5)
 # Managers
 manager_id = Entry(root, width=15)
-manager_id.grid(row=13, column=7, padx=20)
+manager_id.grid(row=13, column=7)
 
 # Labels
 # Stores
@@ -613,10 +619,6 @@ staff_address_label.grid(row=18, column=2, pady=10)
 # StoreStaff
 store_staff_id_label = Label(root, text="Store Staff ID")
 store_staff_id_label.grid(row=13, column=4, pady=10)
-# store_staff_store_id_label = Label(root, text="Store ID")
-# store_staff_store_id_label.grid(row=14, column=2, pady=10)
-# store_staff_staff_id_label = Label(root, text="Staff ID")
-# store_staff_staff_id_label.grid(row=15, column=2, pady=10)
 # Managers
 manager_id_label = Label(root, text="Manager ID")
 manager_id_label.grid(row=13, column=6, pady=10)
@@ -626,19 +628,12 @@ submit_button = Button(root, text="Submit", command=submit)
 submit_button.grid(row=12, column=8, columnspan=2, pady=10, padx=10, ipadx=10)
 
 
-# Get data from database
-# def query_to_console():
-#     conn = sqlite3.connect('BikeStores.db')
-#     c = conn.cursor()
-#
-#     c.execute("SELECT * FROM Stores, BikeCategory")
-#     pprint.pprint(c.fetchall())
-#     c.close()
-#     conn.close()
-
-
 # Print the data from the datbase to the GUI
 def query_to_gui():
+    gui_print = Tk()
+    gui_print.title("Printed Data")
+    gui_print.geometry("1200x800")
+    gui_print.configure(background='#919191')
     conn = sqlite3.connect('BikeStores.db')
     c = conn.cursor()
     b = conn.cursor()
@@ -650,6 +645,7 @@ def query_to_gui():
     i = conn.cursor()
     j = conn.cursor()
     k = conn.cursor()
+    l = conn.cursor()
 
     c.execute("Select * FROM Stores")
     b.execute("Select * FROM BikeCategory")
@@ -661,6 +657,7 @@ def query_to_gui():
     i.execute("Select * FROM Staff")
     j.execute("Select * FROM StoreStaff")
     k.execute("Select * FROM Managers")
+    l.execute("Select * FROM Items")
 
     output = c.fetchall()
     bike_output = b.fetchall()
@@ -672,6 +669,7 @@ def query_to_gui():
     staff_output = i.fetchall()
     store_staff_output = j.fetchall()
     manager_output = k.fetchall()
+    item_output = l.fetchall()
 
     # check if there is data in output
     # Stores
@@ -681,8 +679,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=9, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=0, column=0, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -694,8 +692,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=12, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=1, column=0, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -707,8 +705,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=13, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=2, column=0, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -720,8 +718,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=14, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=3, column=0, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -733,8 +731,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=15, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=4, column=0, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -746,8 +744,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=16, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=5, column=0, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -759,8 +757,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=17, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=0, column=6, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -772,8 +770,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=18, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=1, column=6, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -785,8 +783,8 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=19, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=2, column=6, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -798,8 +796,21 @@ def query_to_gui():
             print_records += str(record) + "\n"
 
         # global query_label
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=20, column=9, columnspan=3, pady=10, padx=10)
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=3, column=6, columnspan=3, pady=10, padx=10)
+    else:
+        time.sleep(1)
+        query_label.destroy()
+
+    # Items
+    if len(item_output) > 0:
+        print_records = 'Items'
+        for record in item_output:
+            print_records += str(record) + "\n"
+
+        # global query_label
+        query_label = Label(gui_print, text=print_records)
+        query_label.grid(row=4, column=6, columnspan=3, pady=10, padx=10)
     else:
         time.sleep(1)
         query_label.destroy()
@@ -815,7 +826,7 @@ c = conn.cursor()
 def search_stores():
     search_stores = Tk()
     search_stores.title("Sales/Staff")
-    search_stores.geometry("800x600")
+    search_stores.geometry("1200x800")
     search_stores.configure(background='#d9d9d9')
 
     # Entry box to search for stores (Pick a store from the pulldown)
@@ -823,9 +834,9 @@ def search_stores():
 
     stores = ['Store 1', 'Store 2', 'Store 3']
 
-    store_one = [(c.execute("Select * FROM Stores WHERE StoreID = 1")).fetchall()]
-    store_two = [(c.execute("Select * FROM Stores WHERE StoreID = 2")).fetchall()]
-    store_three = [(c.execute("Select * FROM Stores WHERE StoreID = 3")).fetchall()]
+    store_one = [(c.execute("Select * FROM Stock WHERE StoreID = 1")).fetchall()]
+    store_two = [(c.execute("Select * FROM Stock WHERE StoreID = 2")).fetchall()]
+    store_three = [(c.execute("Select * FROM Stock WHERE StoreID = 3")).fetchall()]
 
     def dropdown_stores(e):
         listbox3.delete(0, END)
@@ -933,7 +944,7 @@ def search_stores():
 
     # Entry boxes for customers
     cust_id = Entry(search_stores, width=10)
-    cust_id.grid(row=0, column=9, padx=20)
+    cust_id.grid(row=0, column=9)
     cust_first_name = Entry(search_stores, width=10)
     cust_first_name.grid(row=1, column=9)
     cust_last_name = Entry(search_stores, width=10)
@@ -946,24 +957,134 @@ def search_stores():
     cust_address.grid(row=5, column=9)
     # Labels for customers
     cust_id_label = Label(search_stores, text="Customer ID")
-    cust_id_label.grid(row=0, column=8, pady=10)
+    cust_id_label.grid(row=0, column=8)
     cust_first_name_label = Label(search_stores, text="Customer First Name")
-    cust_first_name_label.grid(row=1, column=8, pady=10)
+    cust_first_name_label.grid(row=1, column=8)
     cust_last_name_label = Label(search_stores, text="Customer Last Name")
-    cust_last_name_label.grid(row=2, column=8, pady=10)
+    cust_last_name_label.grid(row=2, column=8)
     cust_email_label = Label(search_stores, text="Customer Email")
-    cust_email_label.grid(row=3, column=8, pady=10)
+    cust_email_label.grid(row=3, column=8)
     cust_phone_label = Label(search_stores, text="Customer Phone")
-    cust_phone_label.grid(row=4, column=8, pady=10)
+    cust_phone_label.grid(row=4, column=8)
     cust_address_label = Label(search_stores, text="Customer Address")
-    cust_address_label.grid(row=5, column=8, pady=10)
+    cust_address_label.grid(row=5, column=8)
     # Submit button
     submit_button = Button(search_stores, text="Submit Customers", command=submit_customers)
-    submit_button.grid(row=8, column=8, columnspan=2, pady=10, padx=10, ipadx=10)
+    submit_button.grid(row=8, column=8)
+
+    # Order & Items functionality
+    def submit_orders():
+        # Orders
+        c.execute("INSERT INTO Orders VALUES ('" + str(order_id.get()) + "', '" + str(order_date.get()) + "', '" + str(
+            cust_id.get()) + "', '" + str(store_staff_id.get()) + "', '" + str(discount.get()) + "', '" + str(
+            total_price.get()) + "')")
+        # Delete after entry
+        conn.commit()
+        order_id.delete(0, END)
+        order_date.delete(0, END)
+        cust_id.delete(0, END)
+        store_staff_id.delete(0, END)
+        discount.delete(0, END)
+        total_price.delete(0, END)
+
+        # Items
+        c.execute("INSERT INTO Items VALUES ('" + str(item_id.get()) + "', '" + str(order_id.get()) + "', '" + str(
+            bike_prod_id.get()) + "', '" + str(bike_prod_name.get()) + "', '" + str(quantity.get()) + "')")
+        # Delete after entry
+        conn.commit()
+        item_id.delete(0, END)
+        order_id.delete(0, END)
+        bike_prod_id.delete(0, END)
+        quantity.delete(0, END)
+
+
+    # Entry boxes for orders
+    order_id = Entry(search_stores, width=10)
+    order_id.grid(row=0, column=11, padx=20)
+    order_date = Entry(search_stores, width=10)
+    order_date.grid(row=1, column=11)
+    cust_id = Entry(search_stores, width=10)
+    cust_id.grid(row=2, column=11)
+    store_staff_id = Entry(search_stores, width=10)
+    store_staff_id.grid(row=3, column=11)
+    discount = Entry(search_stores, width=10)
+    discount.grid(row=4, column=11)
+    total_price = Entry(search_stores, width=10)
+    total_price.grid(row=5, column=11)
+    # Labels for orders
+    order_id_label = Label(search_stores, text="Order ID")
+    order_id_label.grid(row=0, column=10, pady=10)
+    order_date_label = Label(search_stores, text="Order Date")
+    order_date_label.grid(row=1, column=10, pady=10)
+    cust_id_label = Label(search_stores, text="Customer ID")
+    cust_id_label.grid(row=2, column=10, pady=10)
+    store_staff_id_label = Label(search_stores, text="Store Staff ID")
+    store_staff_id_label.grid(row=3, column=10, pady=10)
+    discount_label = Label(search_stores, text="Discount")
+    discount_label.grid(row=4, column=10, pady=10)
+    total_price_label = Label(search_stores, text="Total Price")
+    total_price_label.grid(row=5, column=10, pady=10)
+    # Submit button FOR ORDERS AND ITEMS
+    submit_button = Button(search_stores, text="Submit Orders & Items", command=submit_orders)
+    submit_button.grid(row=8, column=12)
+    # Submit button for just orders
+    submit_button = Button(search_stores, text="Submit Orders", command=submit_orders)
+    submit_button.grid(row=8, column=11)
+    # # Entry boxes for items
+    item_id = Entry(search_stores, width=10)
+    item_id.grid(row=0, column=13, padx=20)
+    products = ['Pegasus', 'Burley', 'Canyon']
+
+    def pick_bike_product(e):
+        bike_prod_id.delete(0, END)
+        if bike_prod_name.get() == 'Pegasus':
+            bike_prod_id.set('Pegasus')
+        elif bike_prod_name.get() == 'Burley':
+            bike_prod_id.set('Burley')
+        elif bike_prod_name.get() == 'Canyon':
+            bike_prod_id.set('Canyon')
+
+    bike_prod_name = ttk.Combobox(search_stores, values=products, width=10)
+    bike_prod_name.grid(row=2, column=13)
+    bike_prod_id = Entry(search_stores, width=10)
+    bike_prod_id.grid(row=1, column=13)
+    quantity = Entry(search_stores, width=10)
+    quantity.grid(row=3, column=13)
+    # Labels for items
+    item_id_label = Label(search_stores, text="Item Order ID")
+    item_id_label.grid(row=0, column=12)
+    bike_prod_id_label = Label(search_stores, text="Bike Product ID")
+    bike_prod_id_label.grid(row=1, column=12)
+    bike_prod_name_label = Label(search_stores, text="Bike Product Name")
+    bike_prod_name_label.grid(row=2, column=12)
+    quantity_label = Label(search_stores, text="Quantity")
+    quantity_label.grid(row=3, column=12)
+    # Submit button for just items
+    submit_button = Button(search_stores, text="Submit Items", command=submit_orders)
+    submit_button.grid(row=8, column=13)
+
+    # Subtract 1 value from quantity
+    def subtract_quantity():
+        if store_label.get() == "Store 1":
+            # subtract quantity from stock table where store id is 1
+            c.execute("UPDATE Stock SET StockQuantity = StockQuantity - 1 WHERE StoreID = '1'")
+        elif store_label.get() == "Store 2":
+            # subtract quantity from stock table where store id is 2
+            c.execute("UPDATE Stock SET StockQuantity = StockQuantity - 1 WHERE StoreID = '2'")
+        elif store_label.get() == "Store 3":
+            # subtract quantity from stock table where store id is 3
+            c.execute("UPDATE Stock SET StockQuantity = StockQuantity - 1 WHERE StoreID = '3'")
+        conn.commit()
+
+
+    # Create a button to subtract 1 from quantity
+    subtract_button = Button(search_stores, text="Item Sold! -1 quantity", command=subtract_quantity)
+    subtract_button.grid(row=3, column=14)
+
 
 
 # Buttons on the main window to open the new window
-# Search Stores
+# Sales/Staff
 search_store_button = Button(root, text="Sales/Staff", command=search_stores)
 search_store_button.grid(row=17, column=5, columnspan=3, pady=10, padx=10)
 
@@ -977,7 +1098,28 @@ query_button = Button(root, text="Show records", command=query_to_gui)
 query_button.grid(row=13, column=8, columnspan=2, pady=10, padx=10, ipadx=10)
 
 
-# ----------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------
+
+
+# Create a function to delete any empty table
+def delete_empty_tables():
+    c.execute("DELETE FROM Stores WHERE StoreID = ''")
+    c.execute("DELETE FROM BikeCategory WHERE BikeCatID = ''")
+    c.execute("DELETE FROM BikeBrand WHERE BikeBrandID = ''")
+    c.execute("DELETE FROM BikeProducts WHERE BikeProdID = ''")
+    c.execute("DELETE FROM Customers WHERE CustID = ''")
+    c.execute("DELETE FROM Orders WHERE OrderID = ''")
+    c.execute("DELETE FROM Stock WHERE StockID = ''")
+    c.execute("DELETE FROM Staff WHERE StaffID = ''")
+    c.execute("DELETE FROM StoreStaff WHERE StoreStaffID = ''")
+    c.execute("DELETE FROM Managers WHERE ManagerID = ''")
+    c.execute("DELETE FROM Items WHERE ItemToOrderID = ''")
+    conn.commit()
+
+# Create a button for delete_empty_tables
+delete_empty_button = Button(root, text="Delete Empty Tables", command=delete_empty_tables)
+delete_empty_button.grid(row=13, column=10, columnspan=2, pady=10, padx=10, ipadx=10)
+
 
 def delete_rows(tableName):
     conn = sqlite3.connect('BikeStores.db')
