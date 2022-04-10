@@ -834,9 +834,9 @@ def search_stores():
 
     stores = ['Store 1', 'Store 2', 'Store 3']
 
-    store_one = [(c.execute("Select * FROM Stock WHERE StoreID = 1")).fetchall()]
-    store_two = [(c.execute("Select * FROM Stock WHERE StoreID = 2")).fetchall()]
-    store_three = [(c.execute("Select * FROM Stock WHERE StoreID = 3")).fetchall()]
+    store_one = [(c.execute("Select * FROM Stock WHERE StoreID = 1")).fetchall(), c.execute("Select * from Stores WHERE StoreID = 1").fetchall()]
+    store_two = [(c.execute("Select * FROM Stock WHERE StoreID = 2")).fetchall(), c.execute("Select * from Stores WHERE StoreID = 2").fetchall()]
+    store_three = [(c.execute("Select * FROM Stock WHERE StoreID = 3")).fetchall(), c.execute("Select * from Stores WHERE StoreID = 3").fetchall()]
 
     def dropdown_stores(e):
         listbox3.delete(0, END)
@@ -856,38 +856,38 @@ def search_stores():
     store_label.current(0)
     store_label.grid(row=0, column=0, pady=2, padx=2, ipadx=5)
     # Listbox to print store results
-    listbox3 = Listbox(search_stores, height=5, width=5)
+    listbox3 = Listbox(search_stores, height=5, width=15)
     listbox3.grid(row=1, column=0, pady=5, padx=5, ipadx=50)
     # Bind
     store_label.bind("<<ComboboxSelected>>", dropdown_stores)
 
     # Searching for what stores have what bikes (within the search_stores window)
-    sizes = ['Small', 'Medium', 'Large']
+    bikes = ['Pegasus', 'Burley', 'Canyon']
 
     # select the first value in the Stock table from column BikeProdID
-    small_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 1")).fetchall()]
-    medium_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 2")).fetchall()]
-    large_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 3")).fetchall()]
+    small_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 1")).fetchall(), c.execute("Select * FROM BikeProducts WHERE BikeProdID = 31").fetchall()]
+    medium_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 2")).fetchall(), c.execute("Select * FROM BikeProducts WHERE BikeProdID = 32").fetchall()]
+    large_colors = [(c.execute("Select Stock.BikeProdID FROM Stock WHERE StoreID = 3")).fetchall(), c.execute("Select * FROM BikeProducts WHERE BikeProdID = 33").fetchall()]
 
     # When a store is picked, the bikes will show up
     def pick_color(e):
         listbox2.delete(0, END)
-        if my_combo.get() == "Small":
+        if my_combo.get() == "Pegasus":
             for item in small_colors:
                 listbox2.insert(END, item)
-        if my_combo.get() == "Medium":
+        if my_combo.get() == "Burley":
             for item in medium_colors:
                 listbox2.insert(END, item)
-        if my_combo.get() == "Large":
+        if my_combo.get() == "Canyon":
             for item in large_colors:
                 listbox2.insert(END, item)
 
     # Create a drop down box to select the store
-    my_combo = ttk.Combobox(search_stores, values=sizes)
+    my_combo = ttk.Combobox(search_stores, values=bikes)
     my_combo.current(0)
     my_combo.grid(row=7, column=0, pady=2, padx=2, ipadx=5)
     # Listbox where input from dropbox will show up
-    listbox2 = Listbox(search_stores, height=5, width=5)
+    listbox2 = Listbox(search_stores, height=5, width=15)
     listbox2.grid(row=8, column=0, pady=5, padx=5, ipadx=50)
     # Bind
     my_combo.bind("<<ComboboxSelected>>", pick_color)
@@ -921,7 +921,7 @@ def search_stores():
     staff_label.current(0)
     staff_label.grid(row=0, column=1, pady=2, padx=2, ipadx=5)
     # Listbox to show staff results
-    listbox4 = Listbox(search_stores, height=5, width=5)
+    listbox4 = Listbox(search_stores, height=5, width=15)
     listbox4.grid(row=1, column=1, pady=5, padx=5, ipadx=50)
     # Bind
     staff_label.bind("<<ComboboxSelected>>", pick_staff)
