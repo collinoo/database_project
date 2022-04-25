@@ -850,14 +850,16 @@ def search_stores():
             for item in store_three:
                 listbox3.insert(END, item)
 
+    store_search_label = Label(search_stores, text="Search for a store:")
+    store_search_label.grid(row=0, column=0, columnspan=3)
     # Buttons in the search store window
     # Drop down box to select the store
     store_label = ttk.Combobox(search_stores, values=stores)
     store_label.current(0)
-    store_label.grid(row=0, column=0, pady=2, padx=2, ipadx=5)
+    store_label.grid(row=1, column=0, pady=2, padx=2, ipadx=5)
     # Listbox to print store results
     listbox3 = Listbox(search_stores, height=5, width=15)
-    listbox3.grid(row=1, column=0, pady=5, padx=5, ipadx=50)
+    listbox3.grid(row=2, column=0, pady=5, padx=5, ipadx=50)
     # Bind
     store_label.bind("<<ComboboxSelected>>", dropdown_stores)
 
@@ -875,24 +877,33 @@ def search_stores():
         if my_combo.get() == "Pegasus":
             for item in small_colors:
                 listbox2.insert(END, item)
+        instock_label = Label(search_stores, text="Bike is in stock")
+        instock_label.grid(row=13, column=0, pady=10)
         if my_combo.get() == "Burley":
             for item in medium_colors:
                 listbox2.insert(END, item)
+        instock_label = Label(search_stores, text="Bike is in stock")
+        instock_label.grid(row=13, column=0, pady=10)
         if my_combo.get() == "Canyon":
             for item in large_colors:
                 listbox2.insert(END, item)
+        instock_label = Label(search_stores, text="Bike is in stock")
+        instock_label.grid(row=13, column=0, pady=10)
 
     # Create a drop down box to select the store
     my_combo = ttk.Combobox(search_stores, values=bikes)
     my_combo.current(0)
-    my_combo.grid(row=7, column=0, pady=2, padx=2, ipadx=5)
+    my_combo.grid(row=8, column=0, pady=2, padx=2, ipadx=5)
     # Listbox where input from dropbox will show up
     listbox2 = Listbox(search_stores, height=5, width=15)
-    listbox2.grid(row=8, column=0, pady=5, padx=5, ipadx=50)
+    listbox2.grid(row=9, column=0, pady=5, padx=5, ipadx=50)
     # Bind
     my_combo.bind("<<ComboboxSelected>>", pick_color)
 
     # Staff functionality
+    staff_search_label = Label(search_stores, text="Search for a\n staff member")
+    staff_search_label.grid(row=0, column=1)
+
     staff = ['Bob Bill', 'Randy Rall', 'Sally Smith', 'Joe Johnson']
 
     staff_one = [(c.execute("Select * FROM Staff WHERE StaffFirstName = 'Bob'")).fetchall()]
@@ -919,58 +930,58 @@ def search_stores():
     # Staff drop down box
     staff_label = ttk.Combobox(search_stores, values=staff)
     staff_label.current(0)
-    staff_label.grid(row=0, column=1, pady=2, padx=2, ipadx=5)
+    staff_label.grid(row=1, column=1, pady=2, padx=2, ipadx=5)
     # Listbox to show staff results
     listbox4 = Listbox(search_stores, height=5, width=15)
-    listbox4.grid(row=1, column=1, pady=5, padx=5, ipadx=50)
+    listbox4.grid(row=2, column=1, pady=5, padx=5, ipadx=50)
     # Bind
     staff_label.bind("<<ComboboxSelected>>", pick_staff)
 
     # Customer functionality
-    def submit_customers():
-        # Customers
-        c.execute(
-            "INSERT INTO Customers VALUES ('" + str(cust_id.get()) + "', '" + str(cust_first_name.get()) + "', '" + str(
-                cust_last_name.get()) + "', '" + str(cust_email.get()) + "', '" + str(cust_phone.get()) + "', '" + str(
-                cust_address.get()) + "')")
-        # Delete after entry
-        conn.commit()
-        cust_id.delete(0, END)
-        cust_first_name.delete(0, END)
-        cust_last_name.delete(0, END)
-        cust_email.delete(0, END)
-        cust_phone.delete(0, END)
-        cust_address.delete(0, END)
-
-    # Entry boxes for customers
-    cust_id = Entry(search_stores, width=10)
-    cust_id.grid(row=0, column=9)
-    cust_first_name = Entry(search_stores, width=10)
-    cust_first_name.grid(row=1, column=9)
-    cust_last_name = Entry(search_stores, width=10)
-    cust_last_name.grid(row=2, column=9)
-    cust_email = Entry(search_stores, width=10)
-    cust_email.grid(row=3, column=9)
-    cust_phone = Entry(search_stores, width=10)
-    cust_phone.grid(row=4, column=9)
-    cust_address = Entry(search_stores, width=10)
-    cust_address.grid(row=5, column=9)
-    # Labels for customers
-    cust_id_label = Label(search_stores, text="Customer ID")
-    cust_id_label.grid(row=0, column=8)
-    cust_first_name_label = Label(search_stores, text="Customer First Name")
-    cust_first_name_label.grid(row=1, column=8)
-    cust_last_name_label = Label(search_stores, text="Customer Last Name")
-    cust_last_name_label.grid(row=2, column=8)
-    cust_email_label = Label(search_stores, text="Customer Email")
-    cust_email_label.grid(row=3, column=8)
-    cust_phone_label = Label(search_stores, text="Customer Phone")
-    cust_phone_label.grid(row=4, column=8)
-    cust_address_label = Label(search_stores, text="Customer Address")
-    cust_address_label.grid(row=5, column=8)
-    # Submit button
-    submit_button = Button(search_stores, text="Submit Customers", command=submit_customers)
-    submit_button.grid(row=8, column=8)
+    # def submit_customers():
+    #     # Customers
+    #     c.execute(
+    #         "INSERT INTO Customers VALUES ('" + str(cust_id.get()) + "', '" + str(cust_first_name.get()) + "', '" + str(
+    #             cust_last_name.get()) + "', '" + str(cust_email.get()) + "', '" + str(cust_phone.get()) + "', '" + str(
+    #             cust_address.get()) + "')")
+    #     # Delete after entry
+    #     conn.commit()
+    #     cust_id.delete(0, END)
+    #     cust_first_name.delete(0, END)
+    #     cust_last_name.delete(0, END)
+    #     cust_email.delete(0, END)
+    #     cust_phone.delete(0, END)
+    #     cust_address.delete(0, END)
+    #
+    # # Entry boxes for customers
+    # cust_id = Entry(search_stores, width=10)
+    # cust_id.grid(row=0, column=9)
+    # cust_first_name = Entry(search_stores, width=10)
+    # cust_first_name.grid(row=1, column=9)
+    # cust_last_name = Entry(search_stores, width=10)
+    # cust_last_name.grid(row=2, column=9)
+    # cust_email = Entry(search_stores, width=10)
+    # cust_email.grid(row=3, column=9)
+    # cust_phone = Entry(search_stores, width=10)
+    # cust_phone.grid(row=4, column=9)
+    # cust_address = Entry(search_stores, width=10)
+    # cust_address.grid(row=5, column=9)
+    # # Labels for customers
+    # cust_id_label = Label(search_stores, text="Customer ID")
+    # cust_id_label.grid(row=0, column=8)
+    # cust_first_name_label = Label(search_stores, text="Customer First Name")
+    # cust_first_name_label.grid(row=1, column=8)
+    # cust_last_name_label = Label(search_stores, text="Customer Last Name")
+    # cust_last_name_label.grid(row=2, column=8)
+    # cust_email_label = Label(search_stores, text="Customer Email")
+    # cust_email_label.grid(row=3, column=8)
+    # cust_phone_label = Label(search_stores, text="Customer Phone")
+    # cust_phone_label.grid(row=4, column=8)
+    # cust_address_label = Label(search_stores, text="Customer Address")
+    # cust_address_label.grid(row=5, column=8)
+    # # Submit button
+    # submit_button = Button(search_stores, text="Submit Customers", command=submit_customers)
+    # submit_button.grid(row=8, column=8)
 
     # Order & Items functionality
     def submit_orders():
@@ -1005,8 +1016,8 @@ def search_stores():
     order_date.grid(row=1, column=11)
     cust_id = Entry(search_stores, width=10)
     cust_id.grid(row=2, column=11)
-    store_staff_id = Entry(search_stores, width=10)
-    store_staff_id.grid(row=3, column=11)
+    # store_staff_id = Entry(search_stores, width=10)
+    # store_staff_id.grid(row=3, column=11)
     discount = Entry(search_stores, width=10)
     discount.grid(row=4, column=11)
     total_price = Entry(search_stores, width=10)
@@ -1018,8 +1029,22 @@ def search_stores():
     order_date_label.grid(row=1, column=10, pady=10)
     cust_id_label = Label(search_stores, text="Customer ID")
     cust_id_label.grid(row=2, column=10, pady=10)
-    store_staff_id_label = Label(search_stores, text="Store Staff ID")
+
+    store_staff_id_label = Label(search_stores, text="Staff Sellling")
     store_staff_id_label.grid(row=3, column=10, pady=10)
+    staff_names = ['Bob Bill', 'Randy Rall', 'Sally Smith']
+
+    def pick_staff(e):
+        if store_staff_id_list.get() == 'Bob Bill':
+            store_staff_id.set('Bob Bill')
+        elif store_staff_id_list.get() == 'Randy Rall':
+            store_staff_id.set('Randy Rall')
+        elif store_staff_id_list.get() == 'Sally Smith':
+            store_staff_id.set('Sally Smith')
+
+    store_staff_id_list = ttk.Combobox(search_stores, values=staff_names, width=10)
+    store_staff_id_list.grid(row=3, column=11)
+
     discount_label = Label(search_stores, text="Discount")
     discount_label.grid(row=4, column=10, pady=10)
     total_price_label = Label(search_stores, text="Total Price")
@@ -1033,6 +1058,10 @@ def search_stores():
     # # Entry boxes for items
     item_id = Entry(search_stores, width=10)
     item_id.grid(row=0, column=13, padx=20)
+
+    choose_bike_label = Label(search_stores, text="What bike is being purchased?")
+    choose_bike_label.grid(row=5, column=0, pady=10)
+
     products = ['Pegasus', 'Burley', 'Canyon']
 
     def pick_bike_product(e):
@@ -1044,10 +1073,26 @@ def search_stores():
         elif bike_prod_name.get() == 'Canyon':
             bike_prod_id.set('Canyon')
 
+
+    # Entry boxes
     bike_prod_name = ttk.Combobox(search_stores, values=products, width=10)
     bike_prod_name.grid(row=2, column=13)
-    bike_prod_id = Entry(search_stores, width=10)
-    bike_prod_id.grid(row=1, column=13)
+    # bike_prod_id = Entry(search_stores, width=10)
+    # bike_prod_id.grid(row=1, column=13)
+    bike_ids = ['31', '32', '33']
+
+    def pick_bike_ids(e):
+        bike_prod_id.delete(0, END)
+        if bike_prod_id_list.get() == '31':
+            bike_prod_id.set('31')
+        elif bike_prod_id_list.get() == '32':
+            bike_prod_id.set('32')
+        elif bike_prod_id_list.get() == '33':
+            bike_prod_id.set('33')
+
+    bike_prod_id_list = ttk.Combobox(search_stores, values=bike_ids, width=10)
+    bike_prod_id_list.grid(row=1, column=13)
+
     quantity = Entry(search_stores, width=10)
     quantity.grid(row=3, column=13)
     # Labels for items
@@ -1080,6 +1125,8 @@ def search_stores():
     # Create a button to subtract 1 from quantity
     subtract_button = Button(search_stores, text="Item Sold! -1 quantity", command=subtract_quantity)
     subtract_button.grid(row=3, column=14)
+
+
 
 
 
